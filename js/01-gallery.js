@@ -42,29 +42,23 @@ function onShowImg(event) {
     if(event.target.nodeName !== "IMG") {
         return
     }
-
+    document.addEventListener('keydown', onCloseKey);
     // из библиотеки
     instance = basicLightbox.create(`
-        <img src="${event.target.dataset.source}" width="800" height="600"> `);
+        <img src="${event.target.dataset.source}" width="800" height="600"> `, 
+        {
+            onClose: (instance) => {document.removeEventListener('keydown', onCloseKey); console.log('removed EventLis-er');}
+        });
 
     instance.show();
 
-    document.addEventListener('keydown', onClose);
+    document.addEventListener('keydown', onCloseKey);
     console.log('add EventListener'); 
 }
 
 
-
-
-function onClose(e) {
-    // console.log(e.type);
-    if(e.code !== 'Escape') {
-        return
-    }
-
-    document.removeEventListener('keydown', onClose);
-    // showEl.removeEventListener('click', onClose);
-    console.log('removed EventListener');
+function onCloseKey(e) {
+    if(e.code !== 'Escape') {return}
     instance.close();
 }
 
@@ -75,14 +69,6 @@ function onClose(e) {
 
 
 
-
-
-
-
-
-
-
-// let instance;
 
 
 // galaryRef.addEventListener('click', onShowImg);
@@ -117,3 +103,5 @@ function onClose(e) {
 //     console.log('removed EventListener');
 //     instance.close();
 // }
+
+
